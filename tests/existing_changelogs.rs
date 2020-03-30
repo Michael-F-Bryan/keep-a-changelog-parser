@@ -3,6 +3,7 @@ use codespan::{Files, Span};
 macro_rules! sanity_check {
     ($filename:ident) => {
         #[test]
+        #[ignore]
         fn $filename() {
             let src = include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
@@ -27,6 +28,7 @@ macro_rules! sanity_check {
 sanity_check!(keep_a_changelog);
 
 #[test]
+#[ignore]
 fn crate_changelog() {
     let src =
         include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/CHANGELOG.md"));
