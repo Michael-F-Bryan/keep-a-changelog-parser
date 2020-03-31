@@ -1,7 +1,5 @@
-mod diagnostics;
 mod parser;
 
-pub use diagnostics::Diagnostics;
 pub use parser::parse;
 
 use chrono::NaiveDate;

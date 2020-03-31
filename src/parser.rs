@@ -43,15 +43,16 @@ enum Parser {
     ///
     /// ReadingHeader + End(Heading(2...=> ReadingRelease | VersionParseError
     /// ReadingHeader + other => ReadingHeader (other added to buffer)
-    ReadingHeader {
-        buffer: Vec<(Event<'static>, Span)>,
-    },
-    ReadingRelease {
-        release: Release,
-    },
+    ReadingHeader { buffer: Vec<(Event<'static>, Span)> },
+    /// ReadingRelease + Start(Heading(2)) => ReadingHeader
+    /// ReadingRelease + Start(Heading(3)) => ...
+    /// ReadingRelease + other => ReadingRelease (ignored)
+    ReadingRelease { release: Release },
 }
 
 impl Parser {
+    /// Finalises any pending operations (e.g. imagine you are midway through
+    /// parsing a section)
     fn flush<F>(self, state: &mut State, on_diagnostic: &mut F)
     where
         F: FnMut(Diagnostic<FileId>),
