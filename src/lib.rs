@@ -1,41 +1,13 @@
-mod parser;
+mod changelog;
 
-pub use parser::parse;
+pub use changelog::{Changelog, Changes, Item, Release};
 
-use chrono::NaiveDate;
-use codespan::Span;
-use pulldown_cmark::Event;
-use semver::Version;
+use codespan::FileId;
+use codespan_reporting::diagnostic::Diagnostic;
 
-#[derive(Debug, Clone, PartialEq)]
-#[non_exhaustive]
-pub struct Changelog {
-    pub releases: Vec<Release>,
-    pub span: Span,
-}
-
-#[derive(Debug, Clone, PartialEq)]
-#[non_exhaustive]
-pub struct Release {
-    pub version: Option<Version>,
-    pub date: Option<NaiveDate>,
-    pub link: Option<String>,
-    pub changes: Changes,
-    pub span: Span,
-}
-
-#[derive(Debug, Default, Clone, PartialEq)]
-#[non_exhaustive]
-pub struct Changes {
-    pub added: Vec<Item>,
-    pub changed: Vec<Item>,
-    pub fixed: Vec<Item>,
-}
-
-#[derive(Debug, Clone, PartialEq)]
-#[non_exhaustive]
-pub struct Item {
-    pub body: Vec<Event<'static>>,
-    pub children: Vec<Item>,
-    pub span: Span,
+pub fn parse<F>(_file_id: FileId, _src: &str, _on_diagnostic: F) -> Changelog
+where
+    F: FnMut(Diagnostic<FileId>),
+{
+    unimplemented!()
 }
